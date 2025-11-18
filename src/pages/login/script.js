@@ -39,7 +39,6 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
   alert('Login berhasil!');
 });
 
-// Kode JavaScript untuk togglePassword (ikon monyet)
 const togglePassword = document.getElementById('togglePassword');
 const passwordInput = document.getElementById('password');
 
