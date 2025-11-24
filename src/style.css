@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Global Styles */
 body {
   margin: 0;
@@ -88,12 +90,12 @@ input, button {
 
 input:focus {
   outline: none;
-  border-color: #1E73BE;
+  border-color: #05165B;
   box-shadow: 0 0 0 2px rgba(30,115,190,0.2);
 }
 
 button {
-  background-color: #1E73BE;
+  background-color: #05165B;
   color: white;
   border: none;
   cursor: pointer;
@@ -101,7 +103,7 @@ button {
 }
 
 button:hover {
-  background-color: #155a8a;
+  background-color: #3450be;
 }
 
 /* Responsive */
@@ -219,7 +221,7 @@ button:hover {
 }
 
 .btn-login {
-  background-color: #007bff;
+  background-color: #05165B;
   color: white;
   border: none;
   border-radius: 8px;
@@ -233,7 +235,7 @@ button:hover {
 }
 
 .btn-login:hover {
-  background-color: #0056b3;
+  background-color: #1e5c9e;
   transform: translateY(-2px);
 }
 
@@ -269,3 +271,11 @@ button:hover {
     font-size: 16px;
   }
 }
+
+.navbar nav {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+

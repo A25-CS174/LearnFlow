@@ -1,6 +1,6 @@
 /* Navbar */
 .navbar {
-  background-color: #fff;
+  background-color: #fff !important;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   position: fixed;
   top: 0;
@@ -33,14 +33,14 @@
 
 .nav-links a {
   text-decoration: none;
-  color: #333;
+  color: #333 !important;
   font-weight: 500;
   transition: color 0.3s;
 }
 
 .nav-links a.active,
 .nav-links a:hover {
-  color: #007bff;
+  color: #007bff !important;
 }
 
 .profile-icons {
@@ -51,14 +51,14 @@
 .profile, .notif {
   width: 30px;
   height: 30px;
-  background-color: #e9ecef;
+  background-color: #e9ecef !important;
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .profile:hover, .notif:hover {
-  background-color: #dee2e6;
+  background-color: #dee2e6 !important;
 }
 
 /* Responsive Design */

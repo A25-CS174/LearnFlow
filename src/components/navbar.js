@@ -6,7 +6,7 @@ export const navbar = `
     </a>
     <nav class="nav-links">
       <ul>
-        <li><a href="/" data-link class="active">Home</a></li>
+        <li><a href="/" data-link>Home</a></li>
         <li><a href="/dashboard" data-link>Dashboard</a></li>
         <li><a href="/login" data-link>Login</a></li>
         <li><a href="/register" data-link>Register</a></li>
