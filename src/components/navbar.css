@@ -1,7 +1,7 @@
 /* Navbar */
 .navbar {
   background-color: #fff !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   width: 100%;
@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 60px;
 }
 
 .navbar img {
@@ -48,7 +48,8 @@
   gap: 15px;
 }
 
-.profile, .notif {
+.profile,
+.notif {
   width: 30px;
   height: 30px;
   background-color: #e9ecef !important;
@@ -57,7 +58,8 @@
   transition: background-color 0.3s;
 }
 
-.profile:hover, .notif:hover {
+.profile:hover,
+.notif:hover {
   background-color: #dee2e6 !important;
 }
 

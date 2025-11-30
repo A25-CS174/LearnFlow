@@ -1,17 +1,34 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Learn Track</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="/src/style.css" rel="stylesheet">
-</head>
-<body>
-  <div id="app">
-    <div id="navbar"></div>
-    <main id="content"></main>
-  </div>
-  <script type="module" src="main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Learn Track</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Style -->
+    <link href="src/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="font-[Poppins] bg-gray-50">
+    <!-- Root App Container -->
+    <div id="app" class="min-h-screen">
+      <!-- Navbar container (will be filled dynamically) -->
+      <div id="navbar"></div>
+
+      <!-- Main content from pages -->
+      <main id="content" class="p-4"></main>
+    </div>
+
+    <!-- Main JS for routing -->
+    <script type="module" src="main.js"></script>
+  </body>
 </html>
