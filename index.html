@@ -14,21 +14,26 @@
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom Style -->
+    <!-- Custom Global Style -->
     <link href="src/style.css" rel="stylesheet" />
+
+    <!-- ECharts CDN (WAJIB kalau mau chart muncul) -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
   </head>
 
   <body class="font-[Poppins] bg-gray-50">
-    <!-- Root App Container -->
-    <div id="app" class="min-h-screen">
-      <!-- Navbar container (will be filled dynamically) -->
+    <!-- Root App -->
+    <div id="app" class="min-h-screen flex flex-col">
+      
+      <!-- Navbar dinamis -->
       <div id="navbar"></div>
 
-      <!-- Main content from pages -->
-      <main id="content" class="p-4"></main>
+      <!-- Halaman akan masuk ke sini -->
+      <main id="content" class="flex-grow p-4"></main>
+
     </div>
 
-    <!-- Main JS for routing -->
+    <!-- Router -->
     <script type="module" src="main.js"></script>
   </body>
 </html>
