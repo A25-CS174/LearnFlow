@@ -7,7 +7,8 @@ const routes = {
   "/": new LandingPage(),
   login: new LoginPage(),
   register: new RegisterPage(),
-  dashboard: new DashboardPage(), 
+  dashboard: new DashboardPage(),
+  "404": NotFound,
 };
 
 export default routes;
