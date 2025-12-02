@@ -17,11 +17,23 @@ class App {
     let url = window.location.hash.slice(1).replace("/", "").toLowerCase();
     if (url === "") url = "/";
 
-    const page = routes[url] ? routes[url] : routes["404"];
+    const page = routes[url] ? routes[url] : routes["/"];
 
-    this._content.innerHTML = page.render();
+    // Jika pakai file HTML (dashboard)
+    if (page.getHtml) {
+      const html = await page.getHtml();
+      this._content.innerHTML = html;
+    }
 
-    if (page.afterRender) {
+    // Jika pakai string HTML (landing, login, register)
+    else if (page.render) {
+      this._content.innerHTML = page.render();
+    }
+
+    // Jalankan script halaman
+    if (page.load) {
+      page.load();
+    } else if (page.afterRender) {
       page.afterRender();
     }
   }
@@ -29,7 +41,6 @@ class App {
 
 export default App;
 
-// Initialize app when module is loaded in the browser
 import { navbar } from "./src/components/navbar.js";
 
 const contentEl = document.getElementById("content");
@@ -40,9 +51,7 @@ if (navbarEl) {
 }
 
 if (contentEl) {
-  // instantiate so constructor hooks load/hashchange and renders page
   new App({ content: contentEl });
 } else {
-  // If `#content` is missing, log to console to help debugging
   console.warn("App content element (#content) not found in DOM.");
 }
