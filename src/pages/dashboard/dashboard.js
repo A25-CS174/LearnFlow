@@ -30,28 +30,57 @@ export default class DashboardPage {
       let chartData = [];
       try {
         const apiData = await progressAPI.getChart();
-        chartData = apiData?.weeklyMinutes || [0, 0, 0, 0, 0, 0, 0];
+        chartData = apiData?.data || []; // Gunakan data dari API
       } catch (err) {
         console.error("Gagal mengambil data chart:", err);
-        chartData = [0, 0, 0, 0, 0, 0, 0];
+        chartData = []; // Fallback ke data kosong jika gagal
       }
 
       const option = {
         tooltip: { trigger: "axis" },
-        grid: { left: "3%", right: "4%", bottom: "3%", top: "8%", containLabel: true },
-        xAxis: { type: "category", boundaryGap: false, axisLine: { lineStyle: { color: "#ccc" } }, axisLabel: { color: "#555" }, data: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"] },
-        yAxis: { type: "value", axisLine: { show: false }, axisLabel: { color: "#555" }, splitLine: { lineStyle: { color: "#eee" } } },
-        series: [{
-          name: "Menit Belajar",
-          type: "line",
-          smooth: true,
-          symbol: "circle",
-          symbolSize: 8,
-          lineStyle: { width: 3, color: "#0f6bd7" },
-          itemStyle: { color: "#0f6bd7", borderColor: "#fff", borderWidth: 2 },
-          areaStyle: { opacity: 1, color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: "#0f6bd7" }, { offset: 1, color: "#d6f0ff" }]) },
-          data: chartData,
-        }],
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          top: "8%",
+          containLabel: true,
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          axisLine: { lineStyle: { color: "#ccc" } },
+          axisLabel: { color: "#555" },
+          data: [apiData?.labels || []],
+        }, //change the data from stationary array to apiData labels
+        yAxis: {
+          type: "value",
+          axisLine: { show: false },
+          axisLabel: { color: "#555" },
+          splitLine: { lineStyle: { color: "#eee" } },
+        },
+        series: [
+          {
+            name: "Menit Belajar",
+            type: "line",
+            smooth: true,
+            symbol: "circle",
+            symbolSize: 8,
+            lineStyle: { width: 3, color: "#0f6bd7" },
+            itemStyle: {
+              color: "#0f6bd7",
+              borderColor: "#fff",
+              borderWidth: 2,
+            },
+            areaStyle: {
+              opacity: 1,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#0f6bd7" },
+                { offset: 1, color: "#d6f0ff" },
+              ]),
+            },
+            data: chartData,
+          },
+        ],
       };
 
       myChart.setOption(option);
@@ -65,7 +94,9 @@ export default class DashboardPage {
 
     try {
       const paths = await learningPathsAPI.getAll();
-      container.innerHTML = paths.map(path => `
+      container.innerHTML = paths
+        .map(
+          (path) => `
         <div class="border rounded p-3">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
@@ -76,10 +107,13 @@ export default class DashboardPage {
           </div>
           <div class="text-xs text-gray-500">Detail Progress</div>
         </div>
-      `).join("");
+      `,
+        )
+        .join("");
     } catch (err) {
       console.error("Gagal load learning paths:", err);
-      container.innerHTML = "<p class='text-red-500'>Gagal load data Learning Paths</p>";
+      container.innerHTML =
+        "<p class='text-red-500'>Gagal load data Learning Paths</p>";
     }
   }
 
@@ -89,7 +123,9 @@ export default class DashboardPage {
 
     try {
       const modules = await modulesAPI.getAll();
-      container.innerHTML = modules.map(mod => `
+      container.innerHTML = modules
+        .map(
+          (mod) => `
         <div class="border rounded p-3">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
@@ -102,10 +138,13 @@ export default class DashboardPage {
             <div class="rounded-full" style="width:${mod.progress}%; height:10px; background:${mod.progress >= 100 ? "#10b981" : "#ef4444"}"></div>
           </div>
         </div>
-      `).join("");
+      `,
+        )
+        .join("");
     } catch (err) {
       console.error("Gagal load modules:", err);
-      container.innerHTML = "<p class='text-red-500'>Gagal load data Modules</p>";
+      container.innerHTML =
+        "<p class='text-red-500'>Gagal load data Modules</p>";
     }
   }
 }

@@ -1,8 +1,8 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = "http://localhost:5000/api";
 
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return token ? { 'Authorization': `Bearer ${token}` } : {};
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
 const handleResponse = async (response) => {
@@ -16,9 +16,9 @@ const handleResponse = async (response) => {
 export const authAPI = {
   register: async (data) => {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -27,9 +27,9 @@ export const authAPI = {
 
   login: async (data) => {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -55,9 +55,9 @@ export const usersAPI = {
 
   add: async (data) => {
     const response = await fetch(`${API_BASE_URL}/users/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...getAuthHeaders(),
       },
       body: JSON.stringify(data),
@@ -76,14 +76,17 @@ export const progressAPI = {
   },
 
   updateModule: async (moduleId, data) => {
-    const response = await fetch(`${API_BASE_URL}/progress/module/${moduleId}/update`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders(),
+    const response = await fetch(
+      `${API_BASE_URL}/progress/module/${moduleId}/update`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
     return handleResponse(response);
   },
 
@@ -119,42 +122,57 @@ export const modulesAPI = {
   },
 
   getChapters: async (moduleId) => {
-    const response = await fetch(`${API_BASE_URL}/modules/${moduleId}/chapters`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/modules/${moduleId}/chapters`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return handleResponse(response);
   },
 
   getChapter: async (moduleId, chapterId) => {
-    const response = await fetch(`${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return handleResponse(response);
   },
 
   getSubchapters: async (moduleId, chapterId) => {
-    const response = await fetch(`${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return handleResponse(response);
   },
 
   getSubchapter: async (moduleId, chapterId, subchapterId) => {
-    const response = await fetch(`${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters/${subchapterId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters/${subchapterId}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return handleResponse(response);
   },
 
   updateSubchapter: async (moduleId, chapterId, subchapterId, data) => {
-    const response = await fetch(`${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters/${subchapterId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders(),
+    const response = await fetch(
+      `${API_BASE_URL}/modules/${moduleId}/chapters/${chapterId}/subchapters/${subchapterId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
     return handleResponse(response);
   },
 };
@@ -169,9 +187,12 @@ export const learningPathsAPI = {
   },
 
   getById: async (learningpathId) => {
-    const response = await fetch(`${API_BASE_URL}/learning-paths/${learningpathId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/learning-paths/${learningpathId}`,
+      {
+        headers: getAuthHeaders(),
+      },
+    );
     return handleResponse(response);
   },
 };
@@ -187,9 +208,9 @@ export const subscriptionsAPI = {
 
   add: async (data) => {
     const response = await fetch(`${API_BASE_URL}/langganan/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...getAuthHeaders(),
       },
       body: JSON.stringify(data),
@@ -199,9 +220,9 @@ export const subscriptionsAPI = {
 
   update: async (id, data) => {
     const response = await fetch(`${API_BASE_URL}/langganan/${id}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...getAuthHeaders(),
       },
       body: JSON.stringify(data),
@@ -211,7 +232,7 @@ export const subscriptionsAPI = {
 
   delete: async (id) => {
     const response = await fetch(`${API_BASE_URL}/langganan/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: getAuthHeaders(),
     });
     return handleResponse(response);

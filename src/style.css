@@ -1,4 +1,4 @@
-@import "tailwind.css";
+@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 /* Global Styles */
 body {
@@ -231,7 +231,9 @@ button:hover {
   cursor: pointer;
   margin-top: 25px;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   letter-spacing: 0.5px;
 }
 
