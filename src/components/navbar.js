@@ -91,6 +91,11 @@ export const navbar = `
                           </a>
                       </li>
                       <li>
+                          <a href="#/learning-paths" class="block py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#0f1742] hover:bg-gray-50 rounded-l-lg transition-colors">
+                             Learning Paths
+                          </a>
+                      </li>
+                      <li>
                           <a href="#/langganan" class="block py-2 px-4 text-sm font-medium text-slate-600 hover:text-[#0f1742] hover:bg-gray-50 rounded-l-lg transition-colors">
                              Langganan
                           </a>

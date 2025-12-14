@@ -1,4 +1,9 @@
-import { learningPathsAPI } from "../../api/api.js";
+import {
+  learningPathsAPI,
+  getSelectedLearningPath,
+  setSelectedLearningPath,
+  removeSelectedLearningPath,
+} from "../../api/api.js";
 
 export default class LearningPathsPage {
   constructor() {
@@ -61,8 +66,14 @@ export default class LearningPathsPage {
     // cek login
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Anda belum login. Silakan login terlebih dahulu.");
-      window.location.hash = "#/login";
+      Swal.fire({
+        icon: "info",
+        title: "Perlu Login",
+        text: "Anda belum login. Silakan login terlebih dahulu.",
+        confirmButtonColor: "#0b114f",
+      }).then(() => {
+        window.location.hash = "#/login";
+      });
       return;
     }
 
@@ -79,7 +90,7 @@ export default class LearningPathsPage {
 
     try {
       const paths = await learningPathsAPI.getAll();
-      const selected = parseInt(localStorage.getItem("selectedLearningPath")) || null;
+      const selected = getSelectedLearningPath();
 
       if (!paths || paths.length === 0) {
         container.innerHTML = `<p class="col-span-2 text-center text-gray-500 py-10">Tidak ada Learning Path.</p>`;
@@ -88,21 +99,31 @@ export default class LearningPathsPage {
 
       container.innerHTML = paths
         .map((p) => {
-          const isSelected = selected === p.learning_path_id || selected === p.learning_path_id;
+          const isSelected = selected === p.learning_path_id;
           const modulesCount = (p.modules && p.modules.length) || 0;
           return `
             <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm flex flex-col justify-between">
               <div>
-                <h3 class="font-bold text-slate-900 text-lg mb-2">${p.learning_path_name}</h3>
+                <h3 class="font-bold text-slate-900 text-lg mb-2">${
+                  p.learning_path_name
+                }</h3>
                 <p class="text-sm text-gray-500 mb-4">${modulesCount} modul</p>
               </div>
               <div class="flex items-center justify-between">
-                <div class="text-xs text-gray-400">Diperbarui: ${new Date(p.updated_at || p.created_at).toLocaleDateString()}</div>
+                <div class="text-xs text-gray-400">Diperbarui: ${new Date(
+                  p.updated_at || p.created_at
+                ).toLocaleDateString()}</div>
                 <div class="flex items-center gap-2">
-                  <button data-id="${p.learning_path_id}" class="btn-follow bg-[#0f1742] text-white text-xs font-medium py-2 px-3 rounded transition-colors">
+                  <button data-id="${
+                    p.learning_path_id
+                  }" class="btn-follow bg-[#0f1742] text-white text-xs font-medium py-2 px-3 rounded transition-colors">
                     ${isSelected ? "Sedang Diikuti" : "Ikuti"}
                   </button>
-                  ${isSelected ? `<button data-id="${p.learning_path_id}" class="btn-unfollow text-xs text-red-500">Berhenti</button>` : ""}
+                  ${
+                    isSelected
+                      ? `<button data-id="${p.learning_path_id}" class="btn-unfollow text-xs text-red-500">Berhenti</button>`
+                      : ""
+                  }
                 </div>
               </div>
             </div>
@@ -114,8 +135,13 @@ export default class LearningPathsPage {
       container.querySelectorAll(".btn-follow").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const id = parseInt(btn.getAttribute("data-id"));
-          localStorage.setItem("selectedLearningPath", id);
-          alert("Anda sekarang mengikuti Learning Path. Halaman akan diperbarui.");
+          setSelectedLearningPath(id);
+          await Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "Anda sekarang mengikuti Learning Path. Halaman akan diperbarui.",
+            confirmButtonColor: "#0b114f",
+          });
           // refresh page to update UI
           await this.loadLearningPaths();
           // trigger other pages by dispatching event
@@ -126,10 +152,15 @@ export default class LearningPathsPage {
       container.querySelectorAll(".btn-unfollow").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const id = parseInt(btn.getAttribute("data-id"));
-          const current = parseInt(localStorage.getItem("selectedLearningPath"));
+          const current = getSelectedLearningPath();
           if (current === id) {
-            localStorage.removeItem("selectedLearningPath");
-            alert("Anda berhenti mengikuti Learning Path ini. Halaman akan diperbarui.");
+            removeSelectedLearningPath();
+            await Swal.fire({
+              icon: "success",
+              title: "Berhenti",
+              text: "Anda berhenti mengikuti Learning Path ini. Halaman akan diperbarui.",
+              confirmButtonColor: "#0b114f",
+            });
             await this.loadLearningPaths();
             window.dispatchEvent(new Event("learningpath:changed"));
           }

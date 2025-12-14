@@ -95,12 +95,22 @@ class ProfilePage {
     const logoutBtn = document.getElementById("btn-logout");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", () => {
-        if (confirm("Yakin ingin logout?")) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          window.location.hash = "#/login";
-          window.location.reload();
-        }
+        Swal.fire({
+          title: "Yakin ingin logout?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Ya, Logout",
+          cancelButtonText: "Batal",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.hash = "#/login";
+            window.location.reload();
+          }
+        });
       });
     }
 

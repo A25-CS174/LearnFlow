@@ -7,6 +7,57 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+// Ambil current user id dari localStorage.user atau decode token JWT
+export const getCurrentUserId = () => {
+  try {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      const u = JSON.parse(userStr);
+      if (u && u.id) return u.id;
+    }
+  } catch {}
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    const payload = JSON.parse(jsonPayload);
+    return payload?.id ?? null;
+  } catch {
+    return null;
+  }
+};
+
+// Selected Learning Path helpers (scoped per user)
+export const getSelectedLearningPath = () => {
+  const uid = getCurrentUserId() ?? "guest";
+  const key = `selectedLearningPath:${uid}`;
+  const v =
+    localStorage.getItem(key) || localStorage.getItem("selectedLearningPath");
+  return v ? parseInt(v) : null;
+};
+
+export const setSelectedLearningPath = (id) => {
+  const uid = getCurrentUserId() ?? "guest";
+  const key = `selectedLearningPath:${uid}`;
+  localStorage.setItem(key, String(id));
+  // remove old global key to avoid confusion
+  localStorage.removeItem("selectedLearningPath");
+};
+
+export const removeSelectedLearningPath = () => {
+  const uid = getCurrentUserId() ?? "guest";
+  const key = `selectedLearningPath:${uid}`;
+  localStorage.removeItem(key);
+  localStorage.removeItem("selectedLearningPath");
+};
+
 // Handler Response
 const handleResponse = async (response) => {
   let data;
@@ -169,8 +220,15 @@ export const modulesAPI = {
       const chapters = await modulesAPI.getChapters(m.id);
       for (const ch of chapters) {
         const subs = await modulesAPI.getSubchapters(m.id, ch.id);
-        const sub = subs.find(s => s.id === subId);
-        if (sub) return { module: m, chapter: ch, subchapter: sub, allSubchapters: subs, allChapters: chapters };
+        const sub = subs.find((s) => s.id === subId);
+        if (sub)
+          return {
+            module: m,
+            chapter: ch,
+            subchapter: sub,
+            allSubchapters: subs,
+            allChapters: chapters,
+          };
       }
     }
     throw new Error("Subchapter tidak ditemukan");

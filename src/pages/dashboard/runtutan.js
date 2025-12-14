@@ -1,4 +1,9 @@
-import { progressAPI, modulesAPI, learningPathsAPI } from "../../api/api.js";
+import {
+  progressAPI,
+  modulesAPI,
+  learningPathsAPI,
+  getSelectedLearningPath,
+} from "../../api/api.js";
 import * as echarts from "echarts";
 
 export default class RuntutanPage {
@@ -190,7 +195,7 @@ export default class RuntutanPage {
       ]);
 
       // Jika user belum memilih Learning Path manapun -> tampilkan pesan + link
-      const selectedLP = localStorage.getItem("selectedLearningPath");
+      const selectedLP = getSelectedLearningPath();
       if (!selectedLP) {
         container.innerHTML = `
           <div class="py-8 text-center">
@@ -341,9 +346,9 @@ export default class RuntutanPage {
         return;
       }
 
-      // Jika user memilih satu Learning Path (disimpan di localStorage),
+      // Jika user memilih satu Learning Path (disimpan per-user),
       // tampilkan modul dari Learning Path tersebut di bagian kanan.
-      const selectedLP = localStorage.getItem("selectedLearningPath");
+      const selectedLP = getSelectedLearningPath();
       let displayModules = null;
 
       if (selectedLP) {
