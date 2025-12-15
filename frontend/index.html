@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LearnFlow</title>
+    <link rel="icon" type="image/png" href="/image/title-logo.png" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Style -->
+    <link href="./src/style.css" rel="stylesheet" />
+
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <!-- SweetAlert2 for alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body class="font-[Poppins] bg-gray-50">
+    <!-- Root App -->
+    <div id="app" class="min-h-screen flex flex-col">
+      <!-- Navbar dinamis -->
+      <div id="navbar"></div>
+
+      <!-- Halaman akan masuk ke sini -->
+      <main id="content" class="grow p-4"></main>
+    </div>
+
+    <!-- Router -->
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
