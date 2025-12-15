@@ -31,7 +31,7 @@ export default class RegisterPage {
             <div>
               <label class="block mb-1 font-medium">Password</label>
               <input type="password" id="regPassword"
-                placeholder="Masukkan password"
+                placeholder="Masukkan password (min. 6 karakter)"
                 class="border rounded-lg w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required>
             </div>
@@ -62,6 +62,8 @@ export default class RegisterPage {
     `;
   }
 
+  // ... kode render sebelumnya tetap sama ...
+
   afterRender() {
     const form = document.getElementById("registerForm");
 
@@ -79,32 +81,42 @@ export default class RegisterPage {
             "https://api.rakasatriaefendi.site/api/auth/register",
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                name,
-                email,
-                password,
-                city,
-              }),
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, password, city }),
             }
           );
 
           const result = await response.json();
-          console.log(result);
 
           if (!response.ok) {
-            alert(`Gagal registrasi: ${result.message}`);
+            // ALERT GAGAL
+            Swal.fire({
+              icon: "error",
+              title: "Registrasi Gagal",
+              text: result.message || "Silakan periksa data Anda kembali.",
+              confirmButtonColor: "#0b114f",
+            });
             return;
           }
 
-          alert("Registrasi Berhasil!");
-
-          window.location.hash = "#/login";
+          // ALERT SUKSES
+          Swal.fire({
+            icon: "success",
+            title: "Registrasi Berhasil!",
+            text: "Silakan login dengan akun baru Anda.",
+            confirmButtonColor: "#0b114f",
+          }).then(() => {
+            window.location.hash = "#/login";
+          });
         } catch (error) {
           console.error(error);
-          alert("Terjadi error koneksi ke server.");
+          // ALERT ERROR SERVER
+          Swal.fire({
+            icon: "error",
+            title: "Terjadi Kesalahan",
+            text: "Gagal menghubungi server. Coba lagi nanti.",
+            confirmButtonColor: "#0b114f",
+          });
         }
       });
     }

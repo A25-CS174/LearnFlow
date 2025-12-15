@@ -1,4 +1,4 @@
-import { progressAPI } from "../../api/api.js";
+import { progressAPI, getSelectedLearningPath } from "../../api/api.js";
 import { learningPathsAPI } from "../../api/api.js";
 
 export default class ProgressPage {
@@ -141,7 +141,7 @@ export default class ProgressPage {
         (p.modules || []).forEach((m) => lpModuleIdsAll.add(m.id));
       });
 
-      const selectedLP = parseInt(localStorage.getItem("selectedLearningPath")) || null;
+      const selectedLP = getSelectedLearningPath() || null;
 
       let filteredModules = overview.modules || [];
 
@@ -150,13 +150,17 @@ export default class ProgressPage {
         try {
           const lp = await learningPathsAPI.getById(selectedLP);
           const lpModuleIds = new Set((lp.modules || []).map((m) => m.id));
-          filteredModules = (overview.modules || []).filter((m) => lpModuleIds.has(m.id));
+          filteredModules = (overview.modules || []).filter((m) =>
+            lpModuleIds.has(m.id)
+          );
         } catch (e) {
           console.warn("Gagal memuat learning path untuk filter:", e);
         }
       } else {
         // jika belum pilih LP, tampilkan hanya modul yang TIDAK termasuk di ANY LP
-        filteredModules = (overview.modules || []).filter((m) => !lpModuleIdsAll.has(m.id));
+        filteredModules = (overview.modules || []).filter(
+          (m) => !lpModuleIdsAll.has(m.id)
+        );
       }
 
       // update data variable used later
@@ -169,8 +173,10 @@ export default class ProgressPage {
       // hitung overall berdasarkan modul yang sedang ditampilkan (agar konsisten)
       const overallPercentage = allModules.length
         ? Math.round(
-            allModules.reduce((acc, m) => acc + (parseInt(m.progress) || 0), 0) /
-              allModules.length
+            allModules.reduce(
+              (acc, m) => acc + (parseInt(m.progress) || 0),
+              0
+            ) / allModules.length
           )
         : 0;
 
